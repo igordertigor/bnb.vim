@@ -4,7 +4,9 @@ import os
 import sys
 import vim
 
-BNB_FIXER = vim.eval('g:bnb_fixer')
+BNB_FIXER = vim.eval('g:bnb_fixer').lower()
+if BNB_FIXER not in {'black', 'blue'}:
+  raise ValueError(f'Invalid setting g:bnb_fixer={BNB_FIXER}. Valid values are black and blue')
 
 def strtobool(text):
   if text.lower() in ['y', 'yes', 't', 'true', 'on', '1']:
@@ -126,8 +128,6 @@ if _initialize_bnb_env():
     import black as bnb
   elif BNB_FIXER == 'blue':
     import blue as bnb
-  else:
-    raise ValueError(f'Invalid fixer {BNB_FIXER}')
   import time
 
 def get_target_version(tv):
