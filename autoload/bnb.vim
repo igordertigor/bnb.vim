@@ -143,9 +143,9 @@ def get_target_version(tv):
 def Bnb(**kwargs):
   """
   kwargs allows you to override ``target_versions`` argument of
-  ``bnb.FileMode``.
+  ``black.FileMode``.
 
-  ``target_version`` needs to be cleaned because ``bnb.FileMode``
+  ``target_version`` needs to be cleaned because ``black.FileMode``
   expects the ``target_versions`` argument to be a set of TargetVersion enums.
 
   Allow kwargs["target_version"] to be a string to allow
@@ -166,7 +166,12 @@ def Bnb(**kwargs):
     target_version = set(filter(lambda x: x, map(lambda tv: get_target_version(tv), target_version)))
     bnb_kwargs["target_versions"] = target_version
 
-  mode = bnb.FileMode(
+  if BNB_FIXER == 'black':
+    FM = bnb.FileMode
+  elif BNB_FIXER == 'blue':
+    FM = bnb.black.FileMode
+
+  mode = FM(
     line_length=configs["line_length"],
     string_normalization=not configs["skip_string_normalization"],
     is_pyi=vim.current.buffer.name.endswith('.pyi'),
