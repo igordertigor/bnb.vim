@@ -183,7 +183,13 @@ def Bnb(**kwargs):
 
   buffer_str = '\n'.join(vim.current.buffer) + '\n'
   try:
-    new_buffer_str = bnb.format_file_contents(
+    if BNB_FIXER == 'black':
+      format_file_contents = bnb.format_file_contents
+    else:
+      bnb.monkey_patch_black(bnb.Mode.asynchronous)
+      format_file_contents = bnb.black.format_file_contents
+
+    new_buffer_str = format_file_contents(
       buffer_str,
       fast=configs["fast"],
       mode=mode,
