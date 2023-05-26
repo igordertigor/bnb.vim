@@ -4,7 +4,7 @@ import os
 import sys
 import vim
 
-BNB_FIXER = "blue"
+BNB_FIXER = vim.eval('g:bnb_fixer')
 
 def strtobool(text):
   if text.lower() in ['y', 'yes', 't', 'true', 'on', '1']:

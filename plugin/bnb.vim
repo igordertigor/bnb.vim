@@ -73,6 +73,9 @@ endif
 if !exists("g:bnb_preview")
   let g:bnb_preview = 0
 endif
+if !exists("g:bnb_fixer")
+  let g:bnb_fixer = "blue"
+endif
 
 function BnbComplete(ArgLead, CmdLine, CursorPos)
   return [
