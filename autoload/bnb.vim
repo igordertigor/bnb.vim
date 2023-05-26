@@ -125,7 +125,8 @@ if _initialize_bnb_env():
   if BNB_FIXER == 'black':
     import black as bnb
   elif BNB_FIXER == 'blue':
-    import blue as bnb
+    import blue
+    bnb = blue.black
   else:
     raise ValueError(f'Invalid fixer {BNB_FIXER}')
   import time
