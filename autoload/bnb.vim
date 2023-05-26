@@ -182,19 +182,21 @@ def Bnb(**kwargs):
   quiet = configs["quiet"]
 
   buffer_str = '\n'.join(vim.current.buffer) + '\n'
-  try:
-    if BNB_FIXER == 'black':
-      format_file_contents = bnb.format_file_contents
-    else:
-      bnb.monkey_patch_black(bnb.Mode.asynchronous)
-      format_file_contents = bnb.black.format_file_contents
+  if BNB_FIXER == 'black':
+    format_file_contents = bnb.format_file_contents
+    NothingChanged = bnb.NothingChanged
+  else:
+    bnb.monkey_patch_black(bnb.Mode.asynchronous)
+    format_file_contents = bnb.black.format_file_contents
+    NothingChanged = bnb.black.NothingChanged
 
+  try:
     new_buffer_str = format_file_contents(
       buffer_str,
       fast=configs["fast"],
       mode=mode,
     )
-  except bnb.NothingChanged:
+  except NothingChanged:
     if not quiet:
       print(f'{BNB_FIXER}: already well formatted, good job. (took {time.time() - start:.4f}s)')
   except Exception as exc:
