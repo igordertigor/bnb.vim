@@ -228,7 +228,7 @@ def get_configs():
   elif BNB_FIXER == 'blue':
     path_pyproject_toml = bnb.black.find_pyproject_toml((filename,))
     if path_pyproject_toml:
-      toml_config = bnb.black.parse_pyproject_toml(path_pyproject_toml)
+      toml_config = bnb.parse_pyproject_toml(path_pyproject_toml)
     else:
       toml_config = {}
 
