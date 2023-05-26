@@ -125,8 +125,7 @@ if _initialize_bnb_env():
   if BNB_FIXER == 'black':
     import black as bnb
   elif BNB_FIXER == 'blue':
-    import blue
-    bnb = blue.black
+    import blue as bnb
   else:
     raise ValueError(f'Invalid fixer {BNB_FIXER}')
   import time
@@ -209,11 +208,19 @@ def Bnb(**kwargs):
 
 def get_configs():
   filename = vim.eval("@%")
-  path_pyproject_toml = bnb.find_pyproject_toml((filename,))
-  if path_pyproject_toml:
-    toml_config = bnb.parse_pyproject_toml(path_pyproject_toml)
-  else:
-    toml_config = {}
+  if BNB_FIXER == 'black':
+    path_pyproject_toml = bnb.find_pyproject_toml((filename,))
+    if path_pyproject_toml:
+      toml_config = bnb.parse_pyproject_toml(path_pyproject_toml)
+    else:
+      toml_config = {}
+  elif BNB_FIXER == 'blue':
+    path_pyproject_toml = bnb.black.find_pyproject_toml((filename,))
+    if path_pyproject_toml:
+      toml_config = bnb.black.parse_pyproject_toml(path_pyproject_toml)
+    else:
+      toml_config = {}
+
 
   return {
     flag.var_name: toml_config.get(flag.name, flag.cast(vim.eval(flag.vim_rc_name)))
