@@ -221,6 +221,7 @@ def get_configs():
     else:
       toml_config = {}
 
+  print(toml_config)
 
   return {
     flag.var_name: toml_config.get(flag.name, flag.cast(vim.eval(flag.vim_rc_name)))
